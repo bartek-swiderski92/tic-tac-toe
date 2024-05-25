@@ -13,20 +13,20 @@ function Square({value, onSquareClick}) {
 }
 
 function Board({xIsNext, squares, onPlay}) {
+    function handleClick(i) {
+        if (squares[i] || calculateWinner(squares)) return;
+
+        const nextSquares = squares.slice();
+        nextSquares[i] = xIsNext ? 'X' : 'O';
+        onPlay(nextSquares);
+    }
+
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
         status = `Winner: ${winner}`;
     } else {
         status = `Next player: ${xIsNext ? 'X' : 'O'}`;
-    }
-
-    function handleClick(i) {
-        if (squares[i] || calculateWinner(squares)) return;
-
-        const nextSquares = squares.slice();
-        nextSquares[i] = xIsNext ? 'X' : 'O';
-        onplay(nextSquares);
     }
 
     return (
@@ -79,10 +79,14 @@ function Board({xIsNext, squares, onPlay}) {
 }
 export default function Game() {
     const [xIsNext, setXIsNext] = useState(true);
-    const [squares, setSquares] = useState(Array(9).fill(null));
+    const [history, setHistory] = useState([Array(9).fill(null)]);
     const currentSquares = history[history.length - 1];
 
-    function handlePlay(nextSquares) {}
+    function handlePlay(nextSquares) {
+        setHistory([...history, nextSquares]);
+        o;
+        setXIsNext(!xIsNext);
+    }
 
     return (
         <div className="game">
